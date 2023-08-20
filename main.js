@@ -4,12 +4,13 @@ const pauseButton = document.getElementById("pause-button");
 const stopButton = document.getElementById("stop-button");
 
 
-let pause = true;
 let start = false;
+let pause = true;
 
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
+
 
 /**
  * disableButton
@@ -108,5 +109,6 @@ function countTimer() {
 
     timer.innerText = strHours + ":" + strMinutes + ":" + strSeconds;
 }
+
 
 setInterval(countTimer, 1000);
