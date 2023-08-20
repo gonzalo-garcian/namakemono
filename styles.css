@@ -2,3 +2,48 @@
     margin: 0;
     padding: 0;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ---------- BUTTON ---------- */
+
+.button {
+    background: seagreen;
+    border: none;
+    border-radius: 3px;
+    color: aliceblue;
+    cursor: pointer;
+    font-size: x-small;
+    padding: 5px 15px;
+    margin: 0 1em;
+}
+
+.button:hover {
+    background: darkseagreen;
+}
+
+/* ---------- BUTTON ---------- */
+
+.disabled {
+    background: darkgray;
+}
+
+.disabled:hover {
+    background: darkgray;
+    cursor: not-allowed;
+}
+
+#timer {
+    user-select: none;
+}
