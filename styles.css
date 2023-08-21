@@ -4,6 +4,8 @@
 }
 
 body {
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,5 +47,10 @@ body {
 }
 
 #timer {
+    width: 100%;
+    text-align: center;
     user-select: none;
+
+    margin-top: 50px;
+    margin-bottom: 20px;
 }

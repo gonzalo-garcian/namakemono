@@ -8,12 +8,14 @@
 
     <body>
         <h1>Namakemono</h1>
+        <h2 id="timer">00 : 00 : 00</h2>
         <div class="buttons-container">
             <button id="start-button" type="button" onclick="startTimer()" class="button">Start</button>
             <button id="pause-button" type="button" onclick="pauseTimer()" disabled class="button disabled">Pause</button>
             <button id="stop-button" type="button" onclick="stopTimer()" disabled class="button disabled">Stop</button>
         </div>
-        <h2 id="timer">00:00:00</h2>
+        <ul id="timers">
+        </ul>
         <script src="main.js"></script>
     </body>
 </html>
