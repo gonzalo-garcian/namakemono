@@ -9,6 +9,11 @@ const timers = document.getElementById("timers");
 
 let start = false;
 
+
+/**
+ *
+ * @type {{saveTimer: saveTimer, updateTimer: timerActions.updateTimer}}
+ */
 const timerActions = {
     updateTimer: (value) => { timer.innerText = value },
     saveTimer: saveTimer,

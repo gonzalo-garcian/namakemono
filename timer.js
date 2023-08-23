@@ -4,6 +4,12 @@ let hours = 0;
 
 let pause = true;
 
+
+/**
+ *
+ * @type {{saveTimer: saveTimer, seconds: timerActions.seconds, hours: timerActions.hours, minutes: timerActions.minutes,
+ * pause: timerActions.pause, timerToString: getTimerToString}}
+ */
 const timerActions = {
     pause: (value) => { pause = value},
     seconds: (value) => { seconds = value},
@@ -14,6 +20,7 @@ const timerActions = {
 }
 
 /**
+ * main.onMessage
  *
  * @param e
  */
@@ -67,7 +74,7 @@ function timerToString() {
 }
 
 /**
- *
+ * getTimerToString
  */
 function getTimerToString() {
     postMessage({
@@ -75,6 +82,9 @@ function getTimerToString() {
     })
 }
 
+/**
+ * saveTimer
+ */
 function saveTimer() {
     postMessage({
         saveTimer: timerToString()
