@@ -1,3 +1,4 @@
+const timerWorker = new Worker("timer.js");
 const timer = document.getElementById("timer");
 
 const startButton = document.getElementById("start-button");
@@ -6,13 +7,23 @@ const stopButton = document.getElementById("stop-button");
 
 const timers = document.getElementById("timers");
 
-
 let start = false;
-let pause = true;
 
-let seconds = 0;
-let minutes = 0;
-let hours = 0;
+const timerActions = {
+    updateTimer: (value) => { timer.innerText = value },
+    saveTimer: saveTimer,
+}
+
+/**
+ * timerWorker => onMessage
+ *
+ * @param e
+ */
+timerWorker.onmessage = (e) => {
+    for (const key in e.data) {
+        timerActions[key](e.data[key]);
+    }
+};
 
 
 /**
@@ -48,7 +59,9 @@ function startTimer(){
         start = true;
     }
 
-    pause = false;
+    timerWorker.postMessage({
+        pause: false,
+    });
 }
 
 /**
@@ -59,54 +72,35 @@ function pauseTimer() {
 
     disableButton(pauseButton);
 
-    pause = true;
+    timerWorker.postMessage({
+        pause: true,
+    });
 }
 
 /**
  * stopTimer
  */
 function stopTimer() {
-    saveTimer();
+    timerWorker.postMessage({
+        saveTimer: null
+    });
     resetTimer();
-    clearTimers();
-    loadTimers();
-}
-
-/**
- * countTimer
- */
-function countTimer() {
-    if (pause) {
-        return;
-    }
-
-    if (seconds + 1 === 60) {
-        seconds = 0;
-        if (minutes + 1 === 60) {
-            minutes = 0;
-            hours++;
-        } else {
-            minutes++;
-        }
-    } else {
-        seconds++;
-    }
-
-    timer.innerText = timerToString();
+    clearTimersElement();
 }
 
 /**
  * saveTimer
  */
-function saveTimer() {
+function saveTimer(currentTimer) {
     let tmpTimers = JSON.parse(localStorage.getItem('timers'));
 
     if (!tmpTimers){
         tmpTimers = [];
     }
 
-    tmpTimers.push(timerToString());
+    tmpTimers.push(currentTimer);
     localStorage.setItem('timers', JSON.stringify(tmpTimers));
+    loadTimers();
 }
 
 /**
@@ -115,16 +109,18 @@ function saveTimer() {
 function resetTimer() {
     timer.innerText = "00 : 00 : 00";
 
-    seconds = 0;
-    minutes = 0;
-    hours = 0;
-
     disableButton(pauseButton);
     disableButton(stopButton);
 
     activateButton(startButton);
 
-    pause = true;
+    timerWorker.postMessage({
+        seconds: 0,
+        minutes: 0,
+        hours: 0,
+        pause: true
+    });
+
     start = false;
 }
 
@@ -146,29 +142,11 @@ function loadTimers() {
 /**
  * clearTimers
  */
-function clearTimers() {
+function clearTimersElement() {
     while (timers.firstChild){
         timers.removeChild(timers.firstChild);
     }
 }
 
-/**
- * timerToString
- *
- * @returns {string}
- */
-function timerToString() {
-    let strHours = hours.toString();
-    strHours = strHours.length === 2 ? strHours : '0' + strHours;
-
-    let strMinutes = minutes.toString();
-    strMinutes = strMinutes.length === 2 ? strMinutes : '0' + strMinutes;
-
-    let strSeconds = seconds.toString();
-    strSeconds = strSeconds.length === 2 ? strSeconds : '0' + strSeconds;
-
-    return strHours + " : " + strMinutes + " : " + strSeconds;
-}
-
 loadTimers();
-setInterval(countTimer, 1000);
+
