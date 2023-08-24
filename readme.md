@@ -12,7 +12,6 @@ redirected to the `timers` webpage.
 Implement the `Worker` interface to execute timers in a separate thread,
 allowing them to run in the background.
 
-## Major Changes
 ### ⌚ Add a `timers` Section
 Every recorded time-lapse will be listed in this section.
 
